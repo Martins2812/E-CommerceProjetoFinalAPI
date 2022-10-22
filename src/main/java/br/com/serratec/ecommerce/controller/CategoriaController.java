@@ -27,18 +27,21 @@ public class CategoriaController {
 	
 	@GetMapping
 	public ResponseEntity<List<Categoria>> obterTodasAsCategorias() {
+		
 		List<Categoria> lista = servico.obterTodasAsCategorias();
-		return ResponseEntity.ok(lista); 
+		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> obterCategoriaPorId(@PathVariable Long id) {
+		
 		Optional<Categoria> optCategoria = servico.obterCategoriaPorId(id);
 		return ResponseEntity.ok(optCategoria.get());
 	}
 	
 	@PostMapping
 	public ResponseEntity<Categoria> cadastrar (@RequestBody Categoria categoria) {
+		
 		categoria = servico.cadastrar(categoria);
 		return new ResponseEntity<>(categoria, HttpStatus.CREATED);
 	}
@@ -48,9 +51,10 @@ public class CategoriaController {
 		return ResponseEntity.ok(servico.atualizar(id, categoria));
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletar(@PathVariable Long id) {
+	@DeleteMapping
+	public ResponseEntity<Object> deletar(@PathVariable Long id) {
+		
 		servico.deletar(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT); //204
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

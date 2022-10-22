@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serratec.ecommerce.model.Cliente;
+import br.com.serratec.ecommerce.dto.ClienteDTO;
 import br.com.serratec.ecommerce.service.ClienteService;
 
 
@@ -27,35 +27,37 @@ public class ClienteController {
 	private ClienteService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<Cliente>> obterTodosOsClientes() {
+	public ResponseEntity<List<ClienteDTO>> obterTodosOsClientes() {
 		
-		List<Cliente> lista = servico.obterTodosOsClientes();
+		List<ClienteDTO> lista = servico.obterTodosOsClientes();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> obterClientePorId(@PathVariable Long id) {
+	public ResponseEntity<ClienteDTO> obterClientePorId(@PathVariable Long id) {
 		
-		Optional<Cliente> optCliente = servico.obterClientePorId(id);
+		Optional<ClienteDTO> optCliente = servico.obterClientePorId(id);
 		return ResponseEntity.ok(optCliente.get());
 	}
 	
 	@PostMapping
-	public ResponseEntity<Cliente> cadastrar (@RequestBody Cliente cliente) { 
-		cliente = servico.cadastrar(cliente);
+	public ResponseEntity<ClienteDTO> cadastrar (@RequestBody ClienteDTO cliente) {
 		
-		return new ResponseEntity<>(cliente, HttpStatus.CREATED);
+		ClienteDTO clienteDTO = servico.cadastrar(cliente);
+		
+		return new ResponseEntity<>(clienteDTO, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long id,@RequestBody Cliente cliente) {
+	public ResponseEntity<ClienteDTO> atualizar(@PathVariable Long id,@RequestBody ClienteDTO cliente) {
 		return ResponseEntity.ok(servico.atualizar(id, cliente));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
+		
 		servico.deletar(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

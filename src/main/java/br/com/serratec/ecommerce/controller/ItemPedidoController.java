@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serratec.ecommerce.model.ItemPedido;
+import br.com.serratec.ecommerce.dto.ItemPedidoDTO;
 import br.com.serratec.ecommerce.service.ItemPedidoService;
 
 
@@ -27,35 +27,36 @@ public class ItemPedidoController {
 	private ItemPedidoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<ItemPedido>> obterTodosOsItemPedidos() {
+	public ResponseEntity<List<ItemPedidoDTO>> obterTodosOsItemPedidos() {
 		
-		List<ItemPedido> lista = servico.obterTodosOsItemPedidos();
+		List<ItemPedidoDTO> lista = servico.obterTodosOsItemPedidos();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ItemPedido> obterItemPedidoPorId(@PathVariable Long id) {
+	public ResponseEntity<ItemPedidoDTO> obterItemPedidoPorId(@PathVariable Long id) {
 		
-		Optional<ItemPedido> optItemPedido = servico.obterItemPedidoPorId(id);
+		Optional<ItemPedidoDTO> optItemPedido = servico.obterItemPedidoPorId(id);
 		return ResponseEntity.ok(optItemPedido.get());
 	}
 	
 	@PostMapping
-	public ResponseEntity<ItemPedido> cadastrar (@RequestBody ItemPedido itemPedido) {
+	public ResponseEntity<ItemPedidoDTO> cadastrar (@RequestBody ItemPedidoDTO itemPedido) {
 		
-		itemPedido = servico.cadastrar(itemPedido);
-		return new ResponseEntity<>(itemPedido, HttpStatus.CREATED);
+		ItemPedidoDTO itemPedidoDTO = servico.cadastrar(itemPedido);
+		return new ResponseEntity<>(itemPedidoDTO, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ItemPedido> atualizar(@PathVariable Long id,@RequestBody ItemPedido itemPedido) {
+	public ResponseEntity<ItemPedidoDTO> atualizar(@PathVariable Long id,@RequestBody ItemPedidoDTO itemPedido) {
 		return ResponseEntity.ok(servico.atualizar(id, itemPedido));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
+		
 		servico.deletar(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT); //204
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

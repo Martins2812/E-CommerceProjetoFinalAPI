@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serratec.ecommerce.model.Produto;
+import br.com.serratec.ecommerce.dto.ProdutoDTO;
 import br.com.serratec.ecommerce.service.ProdutoService;
 
 @RestController
@@ -26,35 +26,35 @@ public class ProdutoController {
 	private ProdutoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<Produto>> obterTodosOsProdutos() {
+	public ResponseEntity<List<ProdutoDTO>> obterTodosOsProdutos() {
 		
-		List<Produto> lista = servico.obterTodosOsProdutos();
+		List<ProdutoDTO> lista = servico.obterTodosOsProdutos();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto> obterProdutoPorId(@PathVariable Long id) {
+	public ResponseEntity<ProdutoDTO> obterProdutoPorId(@PathVariable Long id) {
 		
-		Optional<Produto> optProduto = servico.obterProdutoPorId(id);
+		Optional<ProdutoDTO> optProduto = servico.obterProdutoPorId(id);
 		return ResponseEntity.ok(optProduto.get());
 	}
 	
 	@PostMapping
-	public ResponseEntity<Produto> cadastrar (@RequestBody Produto produto) {
+	public ResponseEntity<ProdutoDTO> cadastrar (@RequestBody ProdutoDTO produto) {
 		
-		produto = servico.cadastrar(produto);
-		return new ResponseEntity<>(produto, HttpStatus.CREATED);
+		ProdutoDTO produtoDTO = servico.cadastrar(produto);
+		return new ResponseEntity<>(produtoDTO, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Produto> atualizar(@PathVariable Long id,@RequestBody Produto produto) {
+	public ResponseEntity<ProdutoDTO> atualizar(@PathVariable Long id,@RequestBody ProdutoDTO produto) {
 		return ResponseEntity.ok(servico.atualizar(id, produto));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
 		servico.deletar(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT); //204
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

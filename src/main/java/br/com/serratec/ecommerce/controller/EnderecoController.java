@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serratec.ecommerce.model.Endereco;
+import br.com.serratec.ecommerce.dto.EnderecoDTO;
 import br.com.serratec.ecommerce.service.EnderecoService;
 
 
@@ -27,35 +27,36 @@ public class EnderecoController {
 	private EnderecoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<Endereco>> obterTodosOsEnderecos() {
+	public ResponseEntity<List<EnderecoDTO>> obterTodosOsEnderecos() {
 		
-		List<Endereco> lista = servico.obterTodosOsEnderecos();
+		List<EnderecoDTO> lista = servico.obterTodosOsEnderecos();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Endereco> obterEnderecoPorId(@PathVariable Long id) {
+	public ResponseEntity<EnderecoDTO> obterEnderecoPorId(@PathVariable Long id) {
 		
-		Optional<Endereco> optEndereco = servico.obterEnderecoPorId(id);
+		Optional<EnderecoDTO> optEndereco = servico.obterEnderecoPorId(id);
 		return ResponseEntity.ok(optEndereco.get());
 	}
 	
 	@PostMapping
-	public ResponseEntity<Endereco> cadastrar (@RequestBody Endereco endereco) {
+	public ResponseEntity<EnderecoDTO> cadastrar (@RequestBody EnderecoDTO endereco) {
 		
-		endereco = servico.cadastrar(endereco);
-		return new ResponseEntity<>(endereco, HttpStatus.CREATED);
+		EnderecoDTO enderecoDTO = servico.cadastrar(endereco);
+		return new ResponseEntity<>(enderecoDTO, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Endereco> atualizar(@PathVariable Long id,@RequestBody Endereco endereco) {
+	public ResponseEntity<EnderecoDTO> atualizar(@PathVariable Long id,@RequestBody EnderecoDTO endereco) {
 		return ResponseEntity.ok(servico.atualizar(id, endereco));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
+		
 		servico.deletar(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

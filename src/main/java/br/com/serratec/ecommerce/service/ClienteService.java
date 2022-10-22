@@ -1,11 +1,16 @@
 package br.com.serratec.ecommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.ecommerce.dto.ClienteDTO;
+import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
+import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Cliente;
 import br.com.serratec.ecommerce.repository.ClienteRepository;
 
@@ -15,34 +20,69 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repositorio;
 	
-	public List<Cliente> obterTodosOsClientes() {
-		return repositorio.findAll();
+	private ModelMapper mapper = new ModelMapper();
+	
+	public List<ClienteDTO> obterTodosOsClientes() {
+		
+		List<Cliente> lista = repositorio.findAll();
+		
+		var novaLista = new ArrayList<ClienteDTO>();
+		
+		for (Cliente cliente : lista) {
+			novaLista.add(mapper.map(cliente, ClienteDTO.class));
+		}
+		return novaLista;
 	}
 	
-	public Optional<Cliente> obterClientePorId(Long id) {
+	public Optional<ClienteDTO> obterClientePorId(Long id) {
 		
 		Optional<Cliente> optCliente = repositorio.findById(id);
 		
 		if (optCliente.isEmpty()) {
-			
+			throw new ResourceNotFoundException("Não foi possivel encontrar o Cliente com id :" + id);
 		}
-		return optCliente;
+		
+		ClienteDTO dto = mapper.map(optCliente.get(), ClienteDTO.class);
+		return Optional.of(dto);
 	}
 	
-	public Cliente cadastrar (Cliente cliente) {
+	public ClienteDTO cadastrar (ClienteDTO cliente) {
 		
-		cliente.setId(null);
-		return repositorio.save(cliente);
+		validarModelo(cliente);
+		
+		var contaModel = mapper.map(cliente, Cliente.class);
+		
+		contaModel.setId(null);
+		contaModel = repositorio.save(contaModel);
+		
+		var response = mapper.map(contaModel, ClienteDTO.class);
+		
+		return response;
 	}
 	
-	public Cliente atualizar (Long id, Cliente cliente) {
+	public ClienteDTO atualizar (Long id, ClienteDTO cliente) {
 		
-		cliente.setId(id);
-		return repositorio.save(cliente);
+		obterClientePorId(id);
+		
+		validarModelo(cliente);
+		
+		var contaModel = mapper.map(cliente, Cliente.class);
+		
+		contaModel.setId(id);
+		contaModel = repositorio.save(contaModel);
+
+		return mapper.map(contaModel, ClienteDTO.class);
 	}
 	
 	public void deletar(Long id) {
+		obterClientePorId(id);
 		repositorio.deleteById(id);
 	}
 
+	private void validarModelo(ClienteDTO cliente) {
+		
+		if(cliente.getNomeCompleto() == null) {
+			throw new ResourceBadRequestException("O cliente deve ter um nome.");
+		}
+	}
 }
