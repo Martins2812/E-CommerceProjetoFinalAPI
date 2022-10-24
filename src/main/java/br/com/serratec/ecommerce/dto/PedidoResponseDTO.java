@@ -1,0 +1,46 @@
+package br.com.serratec.ecommerce.dto;
+
+import java.util.Date;
+
+public class PedidoResponseDTO {
+
+	private Long id;
+	
+	private Date data_entrega;
+	
+	private Date data_envio;
+	
+	private String status;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getData_entrega() {
+		return data_entrega;
+	}
+
+	public void setData_entrega(Date data_entrega) {
+		this.data_entrega = data_entrega;
+	}
+
+	public Date getData_envio() {
+		return data_envio;
+	}
+
+	public void setData_envio(Date data_envio) {
+		this.data_envio = data_envio;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+}

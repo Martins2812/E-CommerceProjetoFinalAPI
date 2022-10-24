@@ -3,12 +3,11 @@ package br.com.serratec.ecommerce.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import br.com.serratec.ecommerce.dto.EnderecoDTO;
+import br.com.serratec.ecommerce.dto.EnderecoRequestDTO;
+import br.com.serratec.ecommerce.dto.EnderecoResponseDTO;
 import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Endereco;
@@ -22,30 +21,30 @@ public class EnderecoService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	public List<EnderecoDTO> obterTodosOsEnderecos() {
+	public List<EnderecoRequestDTO> obterTodosOsEnderecos() {
 		
 		List<Endereco> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<EnderecoDTO>();
+		var novaLista = new ArrayList<EnderecoRequestDTO>();
 		
 		for (Endereco endereco : lista) {
-			novaLista.add(mapper.map(endereco, EnderecoDTO.class));
+			novaLista.add(mapper.map(endereco, EnderecoRequestDTO.class));
 		}
 		return novaLista;
 	}
 	
-	public Optional<EnderecoDTO> obterEnderecoPorId(Long id) {
+	public Optional<EnderecoRequestDTO> obterEnderecoPorId(Long id) {
 		
 		Optional<Endereco> optEndereco = repositorio.findById(id);
 		
 		if (optEndereco.isEmpty()) {
 			throw new ResourceNotFoundException("Não é possivel encontrar o endereço com o id: " + id);
 		}
-		EnderecoDTO dto = mapper.map(optEndereco.get(), EnderecoDTO.class);
+		EnderecoRequestDTO dto = mapper.map(optEndereco.get(), EnderecoRequestDTO.class);
 		return Optional.of(dto);
 	}
 	
-	public EnderecoDTO cadastrar (EnderecoDTO endereco) {
+	public EnderecoResponseDTO cadastrar (EnderecoRequestDTO endereco) {
 		
 		validarModelo(endereco);
 		
@@ -54,12 +53,12 @@ public class EnderecoService {
 		contaModel.setId(null);
 		contaModel = repositorio.save(contaModel);
 		
-		var response = mapper.map(contaModel, EnderecoDTO.class);
+		var response = mapper.map(contaModel, EnderecoResponseDTO.class);
 		
 		return response;
 	}
 	
-	public EnderecoDTO atualizar (Long id, EnderecoDTO endereco) {
+	public EnderecoRequestDTO atualizar (Long id, EnderecoRequestDTO endereco) {
 		
 		obterEnderecoPorId(id);
 		
@@ -70,7 +69,7 @@ public class EnderecoService {
 		contaModel.setId(id);
 		contaModel = repositorio.save(contaModel);
 
-		return mapper.map(contaModel, EnderecoDTO.class);
+		return mapper.map(contaModel, EnderecoRequestDTO.class);
 	}
 	
 	public void deletar(Long id) {
@@ -78,11 +77,12 @@ public class EnderecoService {
 		repositorio.deleteById(id);
 	}
 	
-	private void validarModelo(EnderecoDTO endereco) {
+	private void validarModelo(EnderecoRequestDTO endereco) {
 		
 		if(endereco.getCep() == null) {
 			throw new ResourceBadRequestException("O endereço deve ter um CEP.");
 		}
 	}
+	
 
 }

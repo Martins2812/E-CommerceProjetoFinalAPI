@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serratec.ecommerce.dto.ProdutoDTO;
+import br.com.serratec.ecommerce.dto.ProdutoRequestDTO;
 import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Produto;
@@ -22,19 +22,19 @@ public class ProdutoService {
 	
 	private ModelMapper mapper = new ModelMapper(); 
 
-	public List<ProdutoDTO> obterTodosOsProdutos() {
+	public List<ProdutoRequestDTO> obterTodosOsProdutos() {
 
 		List<Produto> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<ProdutoDTO>();
+		var novaLista = new ArrayList<ProdutoRequestDTO>();
 		
 		for (Produto produto : lista) {
-			novaLista.add(mapper.map(produto, ProdutoDTO.class));
+			novaLista.add(mapper.map(produto, ProdutoRequestDTO.class));
 		}
 		return novaLista;
 	}
 
-	public Optional<ProdutoDTO> obterProdutoPorId(Long id) {
+	public Optional<ProdutoRequestDTO> obterProdutoPorId(Long id) {
 
 		Optional<Produto> optProduto = repositorio.findById(id);
 
@@ -42,11 +42,11 @@ public class ProdutoService {
 			throw new ResourceNotFoundException("Não foi possivel encontrar o produto com id :" + id);
 		}
 		
-		ProdutoDTO dto = mapper.map(optProduto.get(), ProdutoDTO.class);
+		ProdutoRequestDTO dto = mapper.map(optProduto.get(), ProdutoRequestDTO.class);
 		return Optional.of(dto);
 	}
 
-	public ProdutoDTO cadastrar(ProdutoDTO produto) {
+	public ProdutoRequestDTO cadastrar(ProdutoRequestDTO produto) {
 
 		validarModelo(produto);
 		
@@ -55,12 +55,12 @@ public class ProdutoService {
 		contaModel.setId(null);
 		contaModel = repositorio.save(contaModel);
 		
-		var response = mapper.map(contaModel, ProdutoDTO.class);
+		var response = mapper.map(contaModel, ProdutoRequestDTO.class);
 		
 		return response;
 	}
 
-	public ProdutoDTO atualizar(Long id, ProdutoDTO produto) {
+	public ProdutoRequestDTO atualizar(Long id, ProdutoRequestDTO produto) {
 		obterProdutoPorId(id);
 		
 		validarModelo(produto);
@@ -70,7 +70,7 @@ public class ProdutoService {
 		contaModel.setId(id);
 		contaModel = repositorio.save(contaModel);
 
-		return mapper.map(contaModel, ProdutoDTO.class);
+		return mapper.map(contaModel, ProdutoRequestDTO.class);
 	}
 
 	public void deletar(Long id) {
@@ -78,7 +78,7 @@ public class ProdutoService {
 		repositorio.deleteById(id);
 	}
 
-	private void validarModelo(ProdutoDTO produto) {
+	private void validarModelo(ProdutoRequestDTO produto) {
 		
 		if(produto.getNome() == null) {
 			throw new ResourceBadRequestException("O produto deve ter um nome.");

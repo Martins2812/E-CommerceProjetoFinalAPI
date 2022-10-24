@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serratec.ecommerce.dto.ItemPedidoDTO;
+import br.com.serratec.ecommerce.dto.ItemPedidoRequestDTO;
 import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.ItemPedido;
@@ -23,30 +23,30 @@ public class ItemPedidoService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	public List<ItemPedidoDTO> obterTodosOsItemPedidos() {
+	public List<ItemPedidoRequestDTO> obterTodosOsItemPedidos() {
 		
 		List<ItemPedido> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<ItemPedidoDTO>();
+		var novaLista = new ArrayList<ItemPedidoRequestDTO>();
 		
 		for (ItemPedido itemPedido : lista) {
-			novaLista.add(mapper.map(itemPedido, ItemPedidoDTO.class));
+			novaLista.add(mapper.map(itemPedido, ItemPedidoRequestDTO.class));
 		}
 		return novaLista;
 	}
 	
-	public Optional<ItemPedidoDTO> obterItemPedidoPorId(Long id) {
+	public Optional<ItemPedidoRequestDTO> obterItemPedidoPorId(Long id) {
 		
 		Optional<ItemPedido> optItemPedido = repositorio.findById(id);
 		
 		if (optItemPedido.isEmpty()) {
 			throw new ResourceNotFoundException("Não foi possivel encontrar o item com id :" + id);
 		}
-		ItemPedidoDTO dto = mapper.map(optItemPedido.get(), ItemPedidoDTO.class);
+		ItemPedidoRequestDTO dto = mapper.map(optItemPedido.get(), ItemPedidoRequestDTO.class);
 		return Optional.of(dto);
 	}
 	
-	public ItemPedidoDTO cadastrar (ItemPedidoDTO itemPedido) {
+	public ItemPedidoRequestDTO cadastrar (ItemPedidoRequestDTO itemPedido) {
 		
 		validarModelo(itemPedido);
 		
@@ -55,12 +55,12 @@ public class ItemPedidoService {
 		contaModel.setId(null);
 		contaModel = repositorio.save(contaModel);
 		
-		var response = mapper.map(contaModel, ItemPedidoDTO.class);
+		var response = mapper.map(contaModel, ItemPedidoRequestDTO.class);
 		
 		return response;
 	}
 	
-	public ItemPedidoDTO atualizar (Long id, ItemPedidoDTO itemPedido) {
+	public ItemPedidoRequestDTO atualizar (Long id, ItemPedidoRequestDTO itemPedido) {
 		
 		obterItemPedidoPorId(id);
 		
@@ -71,7 +71,7 @@ public class ItemPedidoService {
 		contaModel.setId(id);
 		contaModel = repositorio.save(contaModel);
 
-		return mapper.map(contaModel, ItemPedidoDTO.class);
+		return mapper.map(contaModel, ItemPedidoRequestDTO.class);
 	}
 	
 	public void deletar(Long id) {
@@ -79,7 +79,7 @@ public class ItemPedidoService {
 		repositorio.deleteById(id);
 	}
 
-	private void validarModelo(ItemPedidoDTO itemPedido) {
+	private void validarModelo(ItemPedidoRequestDTO itemPedido) {
 		
 		if(itemPedido.getId() == null) {
 			throw new ResourceBadRequestException("O item deve ter um id.");

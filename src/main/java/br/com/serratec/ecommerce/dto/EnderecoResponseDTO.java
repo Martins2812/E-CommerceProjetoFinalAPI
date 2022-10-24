@@ -1,19 +1,7 @@
-package br.com.serratec.ecommerce.model;
+package br.com.serratec.ecommerce.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
-@Entity
-public class Endereco {
+public class EnderecoResponseDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_endereco")
 	private Long id;
 	
 	private String cep;
@@ -29,16 +17,8 @@ public class Endereco {
 	private String uf;
 	
 	private String rua;
-	
-	private String cidade;
-	
-	private Number numero;
-	
-	
-	@OneToOne
-	@JoinColumn(name = "id_cliente")
-	private Cliente cliente;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -102,32 +82,5 @@ public class Endereco {
 	public void setRua(String rua) {
 		this.rua = rua;
 	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public Number getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Number numero) {
-		this.numero = numero;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 	
-
-	
-
 }
