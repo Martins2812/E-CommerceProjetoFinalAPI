@@ -21,26 +21,26 @@ public class EnderecoService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	public List<EnderecoRequestDTO> obterTodosOsEnderecos() {
+	public List<EnderecoResponseDTO> obterTodosOsEnderecos() {
 		
 		List<Endereco> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<EnderecoRequestDTO>();
+		var novaLista = new ArrayList<EnderecoResponseDTO>();
 		
 		for (Endereco endereco : lista) {
-			novaLista.add(mapper.map(endereco, EnderecoRequestDTO.class));
+			novaLista.add(mapper.map(endereco, EnderecoResponseDTO.class));
 		}
 		return novaLista;
 	}
 	
-	public Optional<EnderecoRequestDTO> obterEnderecoPorId(Long id) {
+	public Optional<EnderecoResponseDTO> obterEnderecoPorId(Long id) {
 		
 		Optional<Endereco> optEndereco = repositorio.findById(id);
 		
 		if (optEndereco.isEmpty()) {
 			throw new ResourceNotFoundException("Não é possivel encontrar o endereço com o id: " + id);
 		}
-		EnderecoRequestDTO dto = mapper.map(optEndereco.get(), EnderecoRequestDTO.class);
+		EnderecoResponseDTO dto = mapper.map(optEndereco.get(), EnderecoResponseDTO.class);
 		return Optional.of(dto);
 	}
 	

@@ -35,16 +35,16 @@ public class EnderecoController {
 	private EnderecoService servico;
 
 	@GetMapping
-	public ResponseEntity<List<EnderecoRequestDTO>> obterTodosOsEnderecos() {
+	public ResponseEntity<List<EnderecoResponseDTO>> obterTodosOsEnderecos() {
 
-		List<EnderecoRequestDTO> lista = servico.obterTodosOsEnderecos();
+		List<EnderecoResponseDTO> lista = servico.obterTodosOsEnderecos();
 		return ResponseEntity.ok(lista);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<EnderecoRequestDTO> obterEnderecoPorId(@PathVariable Long id) {
+	public ResponseEntity<EnderecoResponseDTO> obterEnderecoPorId(@PathVariable Long id) {
 
-		Optional<EnderecoRequestDTO> optEndereco = servico.obterEnderecoPorId(id);
+		Optional<EnderecoResponseDTO> optEndereco = servico.obterEnderecoPorId(id);
 		return ResponseEntity.ok(optEndereco.get());
 	}
 
@@ -77,7 +77,7 @@ public class EnderecoController {
 				 jsonCep.append(cep);  
 			}
 			Endereco userAux = new Gson().fromJson(jsonCep.toString(), Endereco.class);
-			endereco.setCep(userAux.getCep());         
+			endereco.setCep(userAux.getCep());
 			endereco.setLogradouro(userAux.getLogradouro());
 			endereco.setComplemento(userAux.getComplemento());
 			endereco.setBairro(userAux.getBairro()); 

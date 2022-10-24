@@ -28,13 +28,6 @@ public class Endereco {
 	
 	private String uf;
 	
-	private String rua;
-	
-	private String cidade;
-	
-	private Number numero;
-	
-	
 	@OneToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
@@ -95,30 +88,6 @@ public class Endereco {
 		this.uf = uf;
 	}
 
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public Number getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Number numero) {
-		this.numero = numero;
-	}
-
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -126,8 +95,4 @@ public class Endereco {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-
-	
-
 }

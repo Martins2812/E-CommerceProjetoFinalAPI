@@ -16,9 +16,6 @@ public class EnderecoResponseDTO {
 	
 	private String uf;
 	
-	private String rua;
-
-	
 	public Long getId() {
 		return id;
 	}
@@ -73,14 +70,6 @@ public class EnderecoResponseDTO {
 
 	public void setUf(String uf) {
 		this.uf = uf;
-	}
-
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
 	}
 	
 }

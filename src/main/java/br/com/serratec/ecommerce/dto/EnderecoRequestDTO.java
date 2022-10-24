@@ -13,12 +13,6 @@ public class EnderecoRequestDTO {
 	private String localidade;
 	
 	private String uf;
-	
-	private String rua;
-	
-	private String cidade;
-	
-	private Number numero;
 
 	public String getCep() {
 		return cep;
@@ -67,30 +61,5 @@ public class EnderecoRequestDTO {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public Number getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Number numero) {
-		this.numero = numero;
-	}
-	
 
 }

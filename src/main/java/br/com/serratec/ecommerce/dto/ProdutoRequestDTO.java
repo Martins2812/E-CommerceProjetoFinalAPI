@@ -2,11 +2,7 @@ package br.com.serratec.ecommerce.dto;
 
 import java.util.Date;
 
-import br.com.serratec.ecommerce.model.Produto;
-
 public class ProdutoRequestDTO {
-	
-	private Long id;
 
 	private String nome;
 
@@ -17,14 +13,6 @@ public class ProdutoRequestDTO {
 	private Date data_cadastro;
 
 	private Double valor_unitario;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -64,18 +52,6 @@ public class ProdutoRequestDTO {
 
 	public void setValor_unitario(Double valor_unitario) {
 		this.valor_unitario = valor_unitario;
-	}
-
-	public ProdutoRequestDTO(Produto produto) {
-		super();
-		this.id = produto.getId();
-		this.nome = produto.getNome();
-		this.descricao = produto.getDescricao();
-		this.qtd_estoque = produto.getQtd_estoque();
-		this.data_cadastro = produto.getData_cadastro();
-		this.valor_unitario = produto.getValor_unitario();
-	}
-	
-	
+	}	
 
 }
