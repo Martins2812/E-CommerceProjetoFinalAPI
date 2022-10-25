@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serratec.ecommerce.dto.PedidoDTO;
+import br.com.serratec.ecommerce.dto.PedidoRequestDTO;
 import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Pedido;
@@ -23,54 +23,60 @@ public class PedidoService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	public List<PedidoDTO> obterTodosOsPedidos() {
+	public List<PedidoRequestDTO> obterTodosOsPedidos() {
 		
 		List<Pedido> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<PedidoDTO>();
+		var novaLista = new ArrayList<PedidoRequestDTO>();
 		
 		for (Pedido pedido : lista) {
-			novaLista.add(mapper.map(pedido, PedidoDTO.class));
+			novaLista.add(mapper.map(pedido, PedidoRequestDTO.class));
 		}
 		return novaLista;
 	}
 	
-	public Optional<PedidoDTO> obterPedidoPorId(Long id) {
+	public Optional<PedidoRequestDTO> obterPedidoPorId(Long id) {
 		
 		Optional<Pedido> optPedido = repositorio.findById(id);
 		
 		if (optPedido.isEmpty()) {
 			throw new ResourceNotFoundException("Não foi possivel encontrar o pedido com id :" + id);
 		}
-		PedidoDTO dto = mapper.map(optPedido.get(), PedidoDTO.class);
+		PedidoRequestDTO dto = mapper.map(optPedido.get(), PedidoRequestDTO.class);
 		return Optional.of(dto);
 	}
 	
-	public PedidoDTO cadastrar (PedidoDTO pedido) {
+	public PedidoRequestDTO cadastrar (PedidoRequestDTO pedido) {
 		
 		validarModelo(pedido);
+		validarDataDeEntrega(pedido);
+		validarDataDeEnvio(pedido);
+		validarDataDePedido(pedido);
 		
 		var contaModel = mapper.map(pedido, Pedido.class);
 		
 		contaModel.setId(null);
 		contaModel = repositorio.save(contaModel);
 		
-		var response = mapper.map(contaModel, PedidoDTO.class);
+		var response = mapper.map(contaModel, PedidoRequestDTO.class);
 		
 		return response;
 	}
 	
-	public PedidoDTO atualizar (Long id, PedidoDTO pedido) {
+	public PedidoRequestDTO atualizar (Long id, PedidoRequestDTO pedido) {
 		obterPedidoPorId(id);
 		
 		validarModelo(pedido);
+		validarDataDeEntrega(pedido);
+		validarDataDeEnvio(pedido);
+		validarDataDePedido(pedido);
 		
 		var contaModel = mapper.map(pedido, Pedido.class);
 		
 		contaModel.setId(id);
 		contaModel = repositorio.save(contaModel);
 
-		return mapper.map(contaModel, PedidoDTO.class);
+		return mapper.map(contaModel, PedidoRequestDTO.class);
 	}
 	
 	public void deletar(Long id) {
@@ -78,10 +84,30 @@ public class PedidoService {
 		repositorio.deleteById(id);
 	}
 
-	private void validarModelo(PedidoDTO pedido) {
+	private void validarModelo(PedidoRequestDTO pedido) {
 		
 		if(pedido.getId() == null) {
 			throw new ResourceBadRequestException("O pedido deve ter um id.");
 		}
 	}
+	
+	private void validarDataDeEntrega(PedidoRequestDTO pedido) {
+		
+		if(pedido.getData_entrega() == null) {
+			throw new ResourceBadRequestException("O pedido deve ter uma data.");
+		} 
+	}
+	private void validarDataDeEnvio(PedidoRequestDTO pedido) {
+	
+	if(pedido.getData_envio() == null) {
+		throw new ResourceBadRequestException("O pedido deve ter uma data de envio.");
+		}
+	}
+	private void validarDataDePedido(PedidoRequestDTO pedido) {
+	
+	if(pedido.getData_pedido() == null) {
+		throw new ResourceBadRequestException("O pedido deve ter uma data do pedido.");
+		}
+	}
+	
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serratec.ecommerce.dto.ItemPedidoDTO;
+import br.com.serratec.ecommerce.dto.ItemPedidoRequestDTO;
 import br.com.serratec.ecommerce.service.ItemPedidoService;
 
 
@@ -27,28 +27,28 @@ public class ItemPedidoController {
 	private ItemPedidoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<ItemPedidoDTO>> obterTodosOsItemPedidos() {
+	public ResponseEntity<List<ItemPedidoRequestDTO>> obterTodosOsItemPedidos() {
 		
-		List<ItemPedidoDTO> lista = servico.obterTodosOsItemPedidos();
+		List<ItemPedidoRequestDTO> lista = servico.obterTodosOsItemPedidos();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ItemPedidoDTO> obterItemPedidoPorId(@PathVariable Long id) {
+	public ResponseEntity<ItemPedidoRequestDTO> obterItemPedidoPorId(@PathVariable Long id) {
 		
-		Optional<ItemPedidoDTO> optItemPedido = servico.obterItemPedidoPorId(id);
+		Optional<ItemPedidoRequestDTO> optItemPedido = servico.obterItemPedidoPorId(id);
 		return ResponseEntity.ok(optItemPedido.get());
 	}
 	
 	@PostMapping
-	public ResponseEntity<ItemPedidoDTO> cadastrar (@RequestBody ItemPedidoDTO itemPedido) {
+	public ResponseEntity<ItemPedidoRequestDTO> cadastrar (@RequestBody ItemPedidoRequestDTO itemPedido) {
 		
-		ItemPedidoDTO itemPedidoDTO = servico.cadastrar(itemPedido);
+		ItemPedidoRequestDTO itemPedidoDTO = servico.cadastrar(itemPedido);
 		return new ResponseEntity<>(itemPedidoDTO, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ItemPedidoDTO> atualizar(@PathVariable Long id,@RequestBody ItemPedidoDTO itemPedido) {
+	public ResponseEntity<ItemPedidoRequestDTO> atualizar(@PathVariable Long id,@RequestBody ItemPedidoRequestDTO itemPedido) {
 		return ResponseEntity.ok(servico.atualizar(id, itemPedido));
 	}
 	

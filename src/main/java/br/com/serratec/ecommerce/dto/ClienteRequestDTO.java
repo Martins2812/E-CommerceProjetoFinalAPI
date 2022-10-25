@@ -1,26 +1,14 @@
-package br.com.serratec.ecommerce.model;
+package br.com.serratec.ecommerce.dto;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-@Entity
-public class Cliente {
+public class ClienteRequestDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_cliente")
 	private Long id;
 	
 	private String email;
+	
+	private String nomeUsuario;
 	
 	private String nomeCompleto;
 	
@@ -29,17 +17,7 @@ public class Cliente {
 	private String telefone;
 	
 	private Date data_nascimento;
-	
-	private String nomeUsuario;
 
-	@OneToMany(mappedBy = "cliente")
-	@JsonBackReference
-	private List<Pedido> pedido;
-
-	@OneToMany(mappedBy = "cliente")
-	@JsonBackReference
-	private List<Endereco> endereco;
-	
 	public Long getId() {
 		return id;
 	}
@@ -56,11 +34,11 @@ public class Cliente {
 		this.email = email;
 	}
 
-	public String getnomeCompleto() {
+	public String getNomeCompleto() {
 		return nomeCompleto;
 	}
 
-	public void setnomeCompleto(String nomeCompleto) {
+	public void setNomeCompleto(String nomeCompleto) {
 		this.nomeCompleto = nomeCompleto;
 	}
 
@@ -95,5 +73,8 @@ public class Cliente {
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
 	}
+	
+	
 
 }
+

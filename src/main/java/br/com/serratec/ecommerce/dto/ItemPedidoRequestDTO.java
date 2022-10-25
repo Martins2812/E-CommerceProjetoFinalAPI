@@ -1,22 +1,7 @@
-package br.com.serratec.ecommerce.model;
+package br.com.serratec.ecommerce.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-@Entity
-public class ItemPedido {
+public class ItemPedidoRequestDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_itemPedido")
 	private Long id;
 	
 	private Double quantidade;
@@ -29,18 +14,9 @@ public class ItemPedido {
 	
 	private Double valor_liquido;
 	
-	private Long item_pedido;
+	private Long id_pedido;
 	
-	private Long item_produto;
-
-	@OneToOne
-	@JoinColumn(name = "id_produto")
-	private Produto produto;
-	
-	@ManyToOne
-	@JsonBackReference
-	@JoinColumn(name = "id_pedido")
-	private Pedido pedido;
+	private Long id_produto;
 
 	public Long getId() {
 		return id;
@@ -90,19 +66,19 @@ public class ItemPedido {
 		this.valor_liquido = valor_liquido;
 	}
 
-	public Long getItem_pedido() {
-		return item_pedido;
+	public Long getId_pedido() {
+		return id_pedido;
 	}
 
-	public void setItem_pedido(Long item_pedido) {
-		this.item_pedido = item_pedido;
+	public void setId_pedido(Long id_pedido) {
+		this.id_pedido = id_pedido;
 	}
 
-	public Long getItem_produto() {
-		return item_produto;
+	public Long getId_produto() {
+		return id_produto;
 	}
 
-	public void setItem_produto(Long item_produto) {
-		this.item_produto = item_produto;
+	public void setId_produto(Long id_produto) {
+		this.id_produto = id_produto;
 	}
 }
