@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -19,14 +20,19 @@ public class ItemPedido {
 	@Column(name = "id_itemPedido")
 	private Long id;
 	
+	@NotBlank
 	private Double quantidade;
 	
+	@NotBlank
 	private Double preco_venda;
 	
+	@NotBlank
 	private Double desconto;
 	
+	@NotBlank
 	private Double valor_bruto;
 	
+	@NotBlank
 	private Double valor_liquido;
 	
 	private Long item_pedido;

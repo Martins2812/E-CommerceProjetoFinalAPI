@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.dto.ProdutoRequestDTO;
-import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Produto;
 import br.com.serratec.ecommerce.repository.ProdutoRepository;
@@ -47,12 +46,6 @@ public class ProdutoService {
 	}
 
 	public ProdutoRequestDTO cadastrar(ProdutoRequestDTO produto) {
-
-		validarModelo(produto);
-		validarDataDeCadastro(produto);
-		validarDescricao(produto);
-		validarQuantidadeNoEstoque(produto);
-		validarValor(produto);
 		
 		var contaModel = mapper.map(produto, Produto.class);
 		
@@ -67,12 +60,6 @@ public class ProdutoService {
 	public ProdutoRequestDTO atualizar(Long id, ProdutoRequestDTO produto) {
 		obterProdutoPorId(id);
 		
-		validarModelo(produto);
-		validarDataDeCadastro(produto);
-		validarDescricao(produto);
-		validarQuantidadeNoEstoque(produto);
-		validarValor(produto);
-		
 		var contaModel = mapper.map(produto, Produto.class);
 		
 		contaModel.setId(id);
@@ -84,42 +71,5 @@ public class ProdutoService {
 	public void deletar(Long id) {
 		obterProdutoPorId(id);
 		repositorio.deleteById(id);
-	}
-
-	private void validarModelo(ProdutoRequestDTO produto) {
-		
-		if(produto.getNome() == null) {
-			throw new ResourceBadRequestException("O produto deve ter um nome.");
-		}
-	}
-	
-	private void validarDescricao(ProdutoRequestDTO produto) {
-		
-		if(produto.getDescricao() == null) {
-			throw new ResourceBadRequestException("O produto deve ter uma descrição.");
-		} if (produto.getDescricao().length() > 100) {
-			throw new ResourceBadRequestException("Excedido o número máximo de caracteres");
-		}
-	}
-
-	private void validarDataDeCadastro(ProdutoRequestDTO produto) {
-	
-	if(produto.getData_cadastro() == null) {
-		throw new ResourceBadRequestException("O produto deve ter a data de cadastro.");
-		} 
-	}
-
-	private void validarQuantidadeNoEstoque(ProdutoRequestDTO produto) {
-	
-	if(produto.getQtd_estoque() == null) {
-		throw new ResourceBadRequestException("O produto deve ter a quantidade no estoque.");
-		} 
-	}
-
-	private void validarValor(ProdutoRequestDTO produto) {
-	
-	if(produto.getValor_unitario() == null) {
-		throw new ResourceBadRequestException("O produto deve ter um valor.");
-		}
 	}
 }

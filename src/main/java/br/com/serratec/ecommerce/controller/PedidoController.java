@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dto.PedidoRequestDTO;
+import br.com.serratec.ecommerce.dto.PedidoResponseDTO;
 import br.com.serratec.ecommerce.service.PedidoService;
 
 
@@ -41,9 +42,9 @@ public class PedidoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<PedidoRequestDTO> cadastrar (@RequestBody PedidoRequestDTO pedido) {
+	public ResponseEntity<PedidoResponseDTO> cadastrar (@RequestBody PedidoRequestDTO pedido) {
 		
-		PedidoRequestDTO pedidoDTO = servico.cadastrar(pedido);
+		PedidoResponseDTO pedidoDTO = servico.cadastrar(pedido);
 		return new ResponseEntity<>(pedidoDTO, HttpStatus.CREATED);	
 	}
 	
