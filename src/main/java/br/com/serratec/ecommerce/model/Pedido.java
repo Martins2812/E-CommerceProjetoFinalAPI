@@ -30,7 +30,7 @@ public class Pedido {
 	@FutureOrPresent
 	private Date data_envio;
 	
-	private Boolean status;
+	private String status;
 	
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itempedido;
@@ -71,14 +71,27 @@ public class Pedido {
 		this.data_envio = data_envio;
 	}
 
-	public Boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
 
+	public List<ItemPedido> getItempedido() {
+		return itempedido;
+	}
+
+	public void setItempedido(List<ItemPedido> itempedido) {
+		this.itempedido = itempedido;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 }

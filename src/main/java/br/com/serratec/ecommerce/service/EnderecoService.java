@@ -73,5 +73,4 @@ public class EnderecoService {
 		obterEnderecoPorId(id);
 		repositorio.deleteById(id);
 	}
-
 }
