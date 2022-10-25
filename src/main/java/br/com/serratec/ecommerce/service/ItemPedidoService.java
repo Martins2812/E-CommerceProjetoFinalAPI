@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.dto.ItemPedidoRequestDTO;
-import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.ItemPedido;
 import br.com.serratec.ecommerce.repository.ItemPedidoRepository;
@@ -47,8 +46,9 @@ public class ItemPedidoService {
 	}
 	
 	public ItemPedidoRequestDTO cadastrar (ItemPedidoRequestDTO itemPedido) {
-		
-		validarModelo(itemPedido);
+	
+		valorBruto(itemPedido);
+		valorLiquido(itemPedido);
 		
 		var contaModel = mapper.map(itemPedido, ItemPedido.class);
 		
@@ -63,9 +63,7 @@ public class ItemPedidoService {
 	public ItemPedidoRequestDTO atualizar (Long id, ItemPedidoRequestDTO itemPedido) {
 		
 		obterItemPedidoPorId(id);
-		
-		validarModelo(itemPedido);
-		
+    
 		var contaModel = mapper.map(itemPedido, ItemPedido.class);
 		
 		contaModel.setId(id);
@@ -78,11 +76,14 @@ public class ItemPedidoService {
 		obterItemPedidoPorId(id);
 		repositorio.deleteById(id);
 	}
-
-	private void validarModelo(ItemPedidoRequestDTO itemPedido) {
-		
-		if(itemPedido.getId() == null) {
-			throw new ResourceBadRequestException("O item deve ter um id.");
-		}
+	
+	private double valorBruto(ItemPedidoRequestDTO itemPedido) {
+		double bruto = itemPedido.getPreco_venda() * itemPedido.getQuantidade();
+		return bruto;
+	}
+	
+	private double valorLiquido(ItemPedidoRequestDTO itemPedido) {
+		double liquido = valorBruto(itemPedido) - itemPedido.getDesconto();
+		return liquido;
 	}
 }

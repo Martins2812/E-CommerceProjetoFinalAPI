@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Produto {
@@ -18,14 +21,21 @@ public class Produto {
 	@Column(name = "id_produto")
 	private Long id;
 
+	@NotBlank
+	@Size(max = 30)
 	private String nome;
 
+	@NotBlank
+	@Size(max = 100)
 	private String descricao;
 
+	@NotBlank
 	private Double qtd_estoque;
 
+	@FutureOrPresent
 	private Date data_cadastro;
 
+	@NotBlank
 	private Double valor_unitario;
 
 	@ManyToOne

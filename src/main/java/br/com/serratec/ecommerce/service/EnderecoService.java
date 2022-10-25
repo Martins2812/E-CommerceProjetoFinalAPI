@@ -3,12 +3,13 @@ package br.com.serratec.ecommerce.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import br.com.serratec.ecommerce.dto.EnderecoRequestDTO;
 import br.com.serratec.ecommerce.dto.EnderecoResponseDTO;
-import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Endereco;
 import br.com.serratec.ecommerce.repository.EnderecoRepository;
@@ -46,8 +47,6 @@ public class EnderecoService {
 	
 	public EnderecoResponseDTO cadastrar (EnderecoRequestDTO endereco) {
 		
-		validarModelo(endereco);
-		
 		var contaModel = mapper.map(endereco, Endereco.class);
 		
 		contaModel.setId(null);
@@ -62,8 +61,6 @@ public class EnderecoService {
 		
 		obterEnderecoPorId(id);
 		
-		validarModelo(endereco);
-		
 		var contaModel = mapper.map(endereco, Endereco.class);
 		
 		contaModel.setId(id);
@@ -76,13 +73,4 @@ public class EnderecoService {
 		obterEnderecoPorId(id);
 		repositorio.deleteById(id);
 	}
-	
-	private void validarModelo(EnderecoRequestDTO endereco) {
-		
-		if(endereco.getCep() == null) {
-			throw new ResourceBadRequestException("O endereço deve ter um CEP.");
-		}
-	}
-	
-
 }

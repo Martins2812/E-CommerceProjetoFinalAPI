@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.dto.ProdutoRequestDTO;
-import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Produto;
 import br.com.serratec.ecommerce.repository.ProdutoRepository;
@@ -47,8 +46,6 @@ public class ProdutoService {
 	}
 
 	public ProdutoRequestDTO cadastrar(ProdutoRequestDTO produto) {
-
-		validarModelo(produto);
 		
 		var contaModel = mapper.map(produto, Produto.class);
 		
@@ -63,8 +60,6 @@ public class ProdutoService {
 	public ProdutoRequestDTO atualizar(Long id, ProdutoRequestDTO produto) {
 		obterProdutoPorId(id);
 		
-		validarModelo(produto);
-		
 		var contaModel = mapper.map(produto, Produto.class);
 		
 		contaModel.setId(id);
@@ -76,12 +71,5 @@ public class ProdutoService {
 	public void deletar(Long id) {
 		obterProdutoPorId(id);
 		repositorio.deleteById(id);
-	}
-
-	private void validarModelo(ProdutoRequestDTO produto) {
-		
-		if(produto.getNome() == null) {
-			throw new ResourceBadRequestException("O produto deve ter um nome.");
-		}
 	}
 }
