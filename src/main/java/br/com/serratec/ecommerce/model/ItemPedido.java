@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -17,30 +15,20 @@ public class ItemPedido {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_itemPedido")
+	@Column(name = "id_item_pedido")
 	private Long id;
 	
-	@NotBlank
 	private Double quantidade;
 	
-	@NotBlank
 	private Double preco_venda;
 	
-	@NotBlank
 	private Double desconto;
 	
-	@NotBlank
 	private Double valor_bruto;
 	
-	@NotBlank
 	private Double valor_liquido;
-	
-	private Long item_pedido;
-	
-	private Long item_produto;
 
-	@OneToOne
-	@JoinColumn(name = "id_produto")
+	@OneToOne(mappedBy="itemPedido")
 	private Produto produto;
 	
 	@ManyToOne
@@ -96,19 +84,20 @@ public class ItemPedido {
 		this.valor_liquido = valor_liquido;
 	}
 
-	public Long getItem_pedido() {
-		return item_pedido;
+	public Produto getProduto() {
+		return produto;
 	}
 
-	public void setItem_pedido(Long item_pedido) {
-		this.item_pedido = item_pedido;
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
-	public Long getItem_produto() {
-		return item_produto;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setItem_produto(Long item_produto) {
-		this.item_produto = item_produto;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
+	
 }

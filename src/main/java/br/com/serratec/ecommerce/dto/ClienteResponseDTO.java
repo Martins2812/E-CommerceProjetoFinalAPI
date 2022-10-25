@@ -1,5 +1,9 @@
 package br.com.serratec.ecommerce.dto;
 
+import java.util.List;
+
+import br.com.serratec.ecommerce.model.Endereco;
+
 public class ClienteResponseDTO {
 
 	private Long id;
@@ -11,6 +15,8 @@ public class ClienteResponseDTO {
 	private String nomeCompleto;
 	
 	private String telefone;
+	
+	private List<Endereco> endereco;
 
 	public Long getId() {
 		return id;
@@ -50,5 +56,13 @@ public class ClienteResponseDTO {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Endereco> getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(List<Endereco> endereco) {
+		this.endereco = endereco;
 	}	
 }

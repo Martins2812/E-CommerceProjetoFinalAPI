@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -17,15 +16,13 @@ public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	@Column(name = "id_categoria")
 	private Long id;
 	
-	@NotBlank
 	private String nomeCategoria;
 	
-	@NotBlank
 	private String descricaoCategoria;
+	
 	
 	@OneToMany(mappedBy = "categoria")
 	@JsonBackReference
@@ -62,7 +59,4 @@ public class Categoria {
 	public void setDescricaoCategoria(String descricaoCategoria) {
 		this.descricaoCategoria = descricaoCategoria;
 	}
-	
-	
-
 }

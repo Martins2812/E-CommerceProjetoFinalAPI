@@ -28,16 +28,16 @@ public class PedidoController {
 	private PedidoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<PedidoRequestDTO>> obterTodosOsPedidos() {
+	public ResponseEntity<List<PedidoResponseDTO>> obterTodosOsPedidos() {
 		
-		List<PedidoRequestDTO> lista = servico.obterTodosOsPedidos();
+		List<PedidoResponseDTO> lista = servico.obterTodosOsPedidos();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<PedidoRequestDTO> obterPedidoPorId(@PathVariable Long id) {
+	public ResponseEntity<PedidoResponseDTO> obterPedidoPorId(@PathVariable Long id) {
 		
-		Optional<PedidoRequestDTO> optPedido = servico.obterPedidoPorId(id);
+		Optional<PedidoResponseDTO> optPedido = servico.obterPedidoPorId(id);
 		return ResponseEntity.ok(optPedido.get());
 	}
 	
@@ -49,7 +49,7 @@ public class PedidoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<PedidoRequestDTO> atualizar(@PathVariable Long id,@RequestBody PedidoRequestDTO pedido) {
+	public ResponseEntity<PedidoResponseDTO> atualizar(@PathVariable Long id,@RequestBody PedidoRequestDTO pedido) {
 		return ResponseEntity.ok(servico.atualizar(id, pedido));
 	}
 	

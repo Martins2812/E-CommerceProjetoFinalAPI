@@ -6,9 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Endereco {
@@ -18,32 +17,21 @@ public class Endereco {
 	@Column(name = "id_endereco")
 	private Long id;
 	
-	@NotBlank
-	@Size(max = 9)
 	private String cep;
 	
-	@NotBlank
-	@Size(max = 100)
 	private String logradouro;
 	
-	@NotBlank
-	@Size(max = 30)
 	private String complemento;
 	
-	@NotBlank
-	@Size(max = 20)
 	private String bairro;
 	
-	@NotBlank
-	@Size(max = 50)
 	private String localidade;
 	
-	@NotBlank
-	@Size(max = 2)
 	private String uf;
 	
-	@OneToOne
-	@JoinColumn(name = "id_cliente")
+	@ManyToOne
+	@JoinColumn(name="id_cliente")
+	@JsonBackReference
 	private Cliente cliente;
 
 	public Long getId() {
@@ -109,4 +97,5 @@ public class Endereco {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
 }

@@ -73,8 +73,5 @@ public class ClienteRequestDTO {
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
 	}
-	
-	
-
 }
 

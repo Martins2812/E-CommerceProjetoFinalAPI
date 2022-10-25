@@ -10,9 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Produto {
@@ -21,29 +20,24 @@ public class Produto {
 	@Column(name = "id_produto")
 	private Long id;
 
-	@NotBlank
-	@Size(max = 30)
 	private String nome;
 
-	@NotBlank
-	@Size(max = 100)
 	private String descricao;
 
-	@NotBlank
 	private Double qtd_estoque;
 
-	@FutureOrPresent
 	private Date data_cadastro;
 
-	@NotBlank
 	private Double valor_unitario;
 
 	@ManyToOne
 	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
 
-	@OneToOne(mappedBy = "produto")
-	private ItemPedido itempedido;
+	@OneToOne
+	@JoinColumn(name="id_item_pedido")
+	@JsonBackReference
+	private ItemPedido itemPedido;
 
 	public Long getId() {
 		return id;
@@ -101,5 +95,11 @@ public class Produto {
 		this.valor_unitario = valor_unitario;
 	}
 
+	public ItemPedido getItempedido() {
+		return itemPedido;
+	}
 
+	public void setItempedido(ItemPedido itempedido) {
+		this.itemPedido = itempedido;
+	}
 }

@@ -1,5 +1,8 @@
 package br.com.serratec.ecommerce.dto;
 
+import br.com.serratec.ecommerce.model.Pedido;
+import br.com.serratec.ecommerce.model.Produto;
+
 public class ItemPedidoRequestDTO {
 	
 	private Long id;
@@ -14,9 +17,9 @@ public class ItemPedidoRequestDTO {
 	
 	private Double valor_liquido;
 	
-	private Long id_pedido;
+	private Pedido pedido;
 	
-	private Long id_produto;
+	private Produto produto;
 
 	public Long getId() {
 		return id;
@@ -66,19 +69,19 @@ public class ItemPedidoRequestDTO {
 		this.valor_liquido = valor_liquido;
 	}
 
-	public Long getId_pedido() {
-		return id_pedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setId_pedido(Long id_pedido) {
-		this.id_pedido = id_pedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
-	public Long getId_produto() {
-		return id_produto;
+	public Produto getProduto() {
+		return produto;
 	}
 
-	public void setId_produto(Long id_produto) {
-		this.id_produto = id_produto;
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 }

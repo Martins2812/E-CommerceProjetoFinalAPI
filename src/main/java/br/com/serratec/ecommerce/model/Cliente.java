@@ -9,14 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.br.CPF;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Cliente {
@@ -26,34 +20,23 @@ public class Cliente {
 	@Column(name = "id_cliente")
 	private Long id;
 	
-	@NotBlank
-	@Email
 	private String email;
 	
-	@NotBlank
-	@Size(max = 60)
 	private String nomeCompleto;
 	
-	@NotBlank
-	@CPF
 	private String cpf;
 	
-	@NotBlank
-	@Size(max = 11)
 	private String telefone;
 	
-	@Past
 	private Date data_nascimento;
 	
-	@NotBlank
-	@Size(max = 20)
 	private String nomeUsuario;
 
 	@OneToMany(mappedBy = "cliente")
-	@JsonBackReference
+	@JsonIgnore
 	private List<Pedido> pedido;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy="cliente")
 	private List<Endereco> endereco;
 	
 	public Long getId() {
@@ -70,14 +53,6 @@ public class Cliente {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getnomeCompleto() {
-		return nomeCompleto;
-	}
-
-	public void setnomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
 	}
 
 	public String getCpf() {
@@ -110,6 +85,30 @@ public class Cliente {
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
+	}
+
+	public String getNomeCompleto() {
+		return nomeCompleto;
+	}
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
+	}
+
+	public List<Pedido> getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(List<Pedido> pedido) {
+		this.pedido = pedido;
+	}
+
+	public List<Endereco> getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(List<Endereco> endereco) {
+		this.endereco = endereco;
 	}
 
 }

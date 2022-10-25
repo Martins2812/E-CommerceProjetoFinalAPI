@@ -57,7 +57,6 @@ public class EnderecoController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
-
 		servico.deletar(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

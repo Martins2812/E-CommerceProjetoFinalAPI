@@ -11,23 +11,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
 
-@Entity	
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+@Entity
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pedido")
 	private Long id;
 	
-	@FutureOrPresent
 	private Date data_pedido;
 	
-	@Future
 	private Date data_entrega;
 	
-	@FutureOrPresent
 	private Date data_envio;
 	
 	private String status;
@@ -37,6 +34,7 @@ public class Pedido {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
+	@JsonBackReference
 	private Cliente cliente;
 	
 	public Long getId() {
@@ -94,4 +92,5 @@ public class Pedido {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
 }

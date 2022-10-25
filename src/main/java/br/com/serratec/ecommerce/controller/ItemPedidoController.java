@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dto.ItemPedidoRequestDTO;
+import br.com.serratec.ecommerce.dto.ItemPedidoResponseDTO;
 import br.com.serratec.ecommerce.service.ItemPedidoService;
 
 
@@ -27,9 +28,9 @@ public class ItemPedidoController {
 	private ItemPedidoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<ItemPedidoRequestDTO>> obterTodosOsItemPedidos() {
+	public ResponseEntity<List<ItemPedidoResponseDTO>> obterTodosOsItemPedidos() {
 		
-		List<ItemPedidoRequestDTO> lista = servico.obterTodosOsItemPedidos();
+		List<ItemPedidoResponseDTO> lista = servico.obterTodosOsItemPedidos();
 		return ResponseEntity.ok(lista);
 	}
 	
@@ -41,9 +42,9 @@ public class ItemPedidoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ItemPedidoRequestDTO> cadastrar (@RequestBody ItemPedidoRequestDTO itemPedido) {
+	public ResponseEntity<ItemPedidoResponseDTO> cadastrar (@RequestBody ItemPedidoRequestDTO itemPedido) {
 		
-		ItemPedidoRequestDTO itemPedidoDTO = servico.cadastrar(itemPedido);
+		ItemPedidoResponseDTO itemPedidoDTO = servico.cadastrar(itemPedido);
 		return new ResponseEntity<>(itemPedidoDTO, HttpStatus.CREATED);
 	}
 	

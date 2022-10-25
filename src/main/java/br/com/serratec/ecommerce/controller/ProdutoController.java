@@ -2,7 +2,6 @@ package br.com.serratec.ecommerce.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.serratec.ecommerce.dto.ProdutoRequestDTO;
+import br.com.serratec.ecommerce.dto.ProdutoResponseDTO;
 import br.com.serratec.ecommerce.service.ProdutoService;
 
 @RestController
@@ -26,23 +25,23 @@ public class ProdutoController {
 	private ProdutoService servico;
 	
 	@GetMapping
-	public ResponseEntity<List<ProdutoRequestDTO>> obterTodosOsProdutos() {
+	public ResponseEntity<List<ProdutoResponseDTO>> obterTodosOsProdutos() {
 		
-		List<ProdutoRequestDTO> lista = servico.obterTodosOsProdutos();
+		List<ProdutoResponseDTO> lista = servico.obterTodosOsProdutos();
 		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ProdutoRequestDTO> obterProdutoPorId(@PathVariable Long id) {
+	public ResponseEntity<ProdutoResponseDTO> obterProdutoPorId(@PathVariable Long id) {
 		
-		Optional<ProdutoRequestDTO> optProduto = servico.obterProdutoPorId(id);
+		Optional<ProdutoResponseDTO> optProduto = servico.obterProdutoPorId(id);
 		return ResponseEntity.ok(optProduto.get());
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProdutoRequestDTO> cadastrar (@RequestBody ProdutoRequestDTO produto) {
+	public ResponseEntity<ProdutoResponseDTO> cadastrar (@RequestBody ProdutoRequestDTO produto) {
 		
-		ProdutoRequestDTO produtoDTO = servico.cadastrar(produto);
+		ProdutoResponseDTO produtoDTO = servico.cadastrar(produto);
 		return new ResponseEntity<>(produtoDTO, HttpStatus.CREATED);
 	}
 	
