@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.dto.ClienteRequestDTO;
+import br.com.serratec.ecommerce.dto.ClienteResponseDTO;
 import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Cliente;
@@ -34,7 +35,7 @@ public class ClienteService {
 		return novaLista;
 	}
 	
-	public Optional<ClienteRequestDTO> obterClientePorId(Long id) {
+	public Optional<ClienteResponseDTO> obterClientePorId(Long id) {
 		
 		Optional<Cliente> optCliente = repositorio.findById(id);
 		
@@ -42,26 +43,14 @@ public class ClienteService {
 			throw new ResourceNotFoundException("Não foi possivel encontrar o Cliente com id :" + id);
 		}
 		
-		ClienteRequestDTO dto = mapper.map(optCliente.get(), ClienteRequestDTO.class);
+		ClienteResponseDTO dto = mapper.map(optCliente.get(), ClienteResponseDTO.class);
 		return Optional.of(dto);
 	}
 	
 	public ClienteRequestDTO cadastrar (ClienteRequestDTO cliente) {
-<<<<<<< HEAD
 		validarCpf(cliente);
 		validarNomeCompleto(cliente);
 		validarEmail(cliente);
-=======
-		
-		validarCpf(cliente);
-		validarNomeCompleto(cliente);
-		validarEmail(cliente);
-		validarData(cliente);
-		validarNomeUsuario(cliente);
-		validarTelefone(cliente);
-		
-		
->>>>>>> pedro
 		var contaModel = mapper.map(cliente, Cliente.class);
 		
 		contaModel.setId(null);
@@ -73,20 +62,10 @@ public class ClienteService {
 	}
 	
 	public ClienteRequestDTO atualizar (Long id, ClienteRequestDTO cliente) {
-		
-		obterClientePorId(id);
-<<<<<<< HEAD
-		validarNomeCompleto(cliente);
-=======
-		
 		validarCpf(cliente);
+		obterClientePorId(id);
 		validarNomeCompleto(cliente);
 		validarEmail(cliente);
-		validarData(cliente);
-		validarNomeUsuario(cliente);
-		validarTelefone(cliente);
->>>>>>> pedro
-		
 		var contaModel = mapper.map(cliente, Cliente.class);
 		
 		contaModel.setId(id);
@@ -103,11 +82,7 @@ public class ClienteService {
 	private void validarNomeCompleto(ClienteRequestDTO cliente) {
 		if(cliente.getNomeCompleto() == null) {
 			throw new ResourceBadRequestException("O cliente deve ter um nome.");
-<<<<<<< HEAD
-		}else if (cliente.getNomeCompleto().length() < 60){	
-=======
 		}else if (cliente.getNomeCompleto().length() > 60){	
->>>>>>> pedro
 			throw new ResourceBadRequestException("Digite um nome menor do que 60 caracteres");
 		}
 	}
@@ -123,38 +98,10 @@ public class ClienteService {
 	private void validarEmail(ClienteRequestDTO cliente) {
 		if(cliente.getEmail() == null) {
 			throw new ResourceBadRequestException("O cliente deve ter um e-mail válido");
-<<<<<<< HEAD
-		}else if (cliente.getEmail().length() < 30){	
-			throw new ResourceBadRequestException("Digite um nome menor do que 60 caracteres");
-		}
-	}
-=======
 		}else if (cliente.getEmail().length() > 30){	
-			throw new ResourceBadRequestException("Digite um nome menor do que 30 caracteres");
-		}
-	}
-	
-	private void validarNomeUsuario(ClienteRequestDTO cliente) {
-		if(cliente.getNomeUsuario() == null) {
-			throw new ResourceBadRequestException("O cliente deve ter um usuario.");
-		}else if (cliente.getNomeUsuario().length() > 20){	
-			throw new ResourceBadRequestException("Digite um nome menor do que 20 caracteres");
-		}
-	}
-	
-	private void validarTelefone(ClienteRequestDTO cliente) {
-		if(cliente.getTelefone() == null) {
-			throw new ResourceBadRequestException("O cliente deve ter um telefone.");
-		}else if (cliente.getTelefone().length() > 11){	
 			throw new ResourceBadRequestException("Digite um nome menor do que 60 caracteres");
 		}
 	}
-	private void validarData(ClienteRequestDTO cliente) {
-		if(cliente.getData_nascimento() == null) {
-			throw new ResourceBadRequestException("O cliente deve ter uma data de nascimento");
-		}
-	}
->>>>>>> pedro
 	
 	
 	

@@ -49,8 +49,6 @@ public class ItemPedidoService {
 	public ItemPedidoRequestDTO cadastrar (ItemPedidoRequestDTO itemPedido) {
 		
 		validarModelo(itemPedido);
-		validarPrecoDeVenda(itemPedido);
-		validarQuantidade(itemPedido);
 		
 		var contaModel = mapper.map(itemPedido, ItemPedido.class);
 		
@@ -67,8 +65,6 @@ public class ItemPedidoService {
 		obterItemPedidoPorId(id);
 		
 		validarModelo(itemPedido);
-		validarPrecoDeVenda(itemPedido);
-		validarQuantidade(itemPedido);
 		
 		var contaModel = mapper.map(itemPedido, ItemPedido.class);
 		
@@ -87,20 +83,6 @@ public class ItemPedidoService {
 		
 		if(itemPedido.getId() == null) {
 			throw new ResourceBadRequestException("O item deve ter um id.");
-		}
-	}
-	
-	private void validarQuantidade(ItemPedidoRequestDTO itemPedido) {
-		
-		if(itemPedido.getQuantidade() == null) {
-			throw new ResourceBadRequestException("O item deve ter a quantidade.");
-		}
-	}
-
-	private void validarPrecoDeVenda(ItemPedidoRequestDTO itemPedido) {
-	
-	if(itemPedido.getPreco_venda() == null) {
-		throw new ResourceBadRequestException("O item deve ter o preço");
 		}
 	}
 }

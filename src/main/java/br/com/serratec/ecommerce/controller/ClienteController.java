@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dto.ClienteRequestDTO;
+import br.com.serratec.ecommerce.dto.ClienteResponseDTO;
 import br.com.serratec.ecommerce.service.ClienteService;
 
 
@@ -34,9 +35,9 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ClienteRequestDTO> obterClientePorId(@PathVariable Long id) {
+	public ResponseEntity<ClienteResponseDTO> obterClientePorId(@PathVariable Long id) {
 		
-		Optional<ClienteRequestDTO> optCliente = servico.obterClientePorId(id);
+		Optional<ClienteResponseDTO> optCliente = servico.obterClientePorId(id);
 		return ResponseEntity.ok(optCliente.get());
 	}
 	

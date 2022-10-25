@@ -15,29 +15,24 @@ public class EmailService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
-	public void enviar(MensagemEmail mensagemEmail)  {
-		
+
+	public void enviar(MensagemEmail mensagemEmail) {
+
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-		
+
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
 		try {
 			helper.setFrom(mensagemEmail.getRemetente());
 			helper.setSubject(mensagemEmail.getAssunto());
 			helper.setText(mensagemEmail.getMensagem(), true);
-			
-			// Transformo a minha lista de string emum array de string.
-			helper.setTo(mensagemEmail.getDestinatarios()
-					.toArray(new String[mensagemEmail.getDestinatarios().size()]));
-			
-			//Aqui acontece o envio.
+			helper.setTo(mensagemEmail.getDestinatarios().toArray(new String[mensagemEmail.getDestinatarios().size()]));
+
 			javaMailSender.send(mimeMessage);
-			
+
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 }

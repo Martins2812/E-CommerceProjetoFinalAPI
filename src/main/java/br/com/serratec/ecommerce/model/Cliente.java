@@ -37,7 +37,6 @@ public class Cliente {
 	private List<Pedido> pedido;
 
 	@OneToMany(mappedBy = "cliente")
-	@JsonBackReference
 	private List<Endereco> endereco;
 	
 	public Long getId() {

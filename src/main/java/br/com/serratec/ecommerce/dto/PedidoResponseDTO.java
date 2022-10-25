@@ -2,6 +2,8 @@ package br.com.serratec.ecommerce.dto;
 
 import java.util.Date;
 
+import br.com.serratec.ecommerce.model.Cliente;
+
 public class PedidoResponseDTO {
 
 	private Long id;
@@ -11,6 +13,8 @@ public class PedidoResponseDTO {
 	private Date data_envio;
 	
 	private String status;
+	
+	private Cliente cliente;
 
 	public Long getId() {
 		return id;
@@ -42,5 +46,13 @@ public class PedidoResponseDTO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 }
