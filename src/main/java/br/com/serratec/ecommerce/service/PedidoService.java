@@ -49,6 +49,9 @@ public class PedidoService {
 	public PedidoRequestDTO cadastrar (PedidoRequestDTO pedido) {
 		
 		validarModelo(pedido);
+		validarDataDeEntrega(pedido);
+		validarDataDeEnvio(pedido);
+		validarDataDePedido(pedido);
 		
 		var contaModel = mapper.map(pedido, Pedido.class);
 		
@@ -64,6 +67,9 @@ public class PedidoService {
 		obterPedidoPorId(id);
 		
 		validarModelo(pedido);
+		validarDataDeEntrega(pedido);
+		validarDataDeEnvio(pedido);
+		validarDataDePedido(pedido);
 		
 		var contaModel = mapper.map(pedido, Pedido.class);
 		
@@ -84,4 +90,24 @@ public class PedidoService {
 			throw new ResourceBadRequestException("O pedido deve ter um id.");
 		}
 	}
+	
+	private void validarDataDeEntrega(PedidoRequestDTO pedido) {
+		
+		if(pedido.getData_entrega() == null) {
+			throw new ResourceBadRequestException("O pedido deve ter uma data.");
+		} 
+	}
+	private void validarDataDeEnvio(PedidoRequestDTO pedido) {
+	
+	if(pedido.getData_envio() == null) {
+		throw new ResourceBadRequestException("O pedido deve ter uma data de envio.");
+		}
+	}
+	private void validarDataDePedido(PedidoRequestDTO pedido) {
+	
+	if(pedido.getData_pedido() == null) {
+		throw new ResourceBadRequestException("O pedido deve ter uma data do pedido.");
+		}
+	}
+	
 }

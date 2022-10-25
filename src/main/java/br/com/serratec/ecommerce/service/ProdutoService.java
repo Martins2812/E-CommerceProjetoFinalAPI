@@ -49,6 +49,10 @@ public class ProdutoService {
 	public ProdutoRequestDTO cadastrar(ProdutoRequestDTO produto) {
 
 		validarModelo(produto);
+		validarDataDeCadastro(produto);
+		validarDescricao(produto);
+		validarQuantidadeNoEstoque(produto);
+		validarValor(produto);
 		
 		var contaModel = mapper.map(produto, Produto.class);
 		
@@ -64,6 +68,10 @@ public class ProdutoService {
 		obterProdutoPorId(id);
 		
 		validarModelo(produto);
+		validarDataDeCadastro(produto);
+		validarDescricao(produto);
+		validarQuantidadeNoEstoque(produto);
+		validarValor(produto);
 		
 		var contaModel = mapper.map(produto, Produto.class);
 		
@@ -82,6 +90,36 @@ public class ProdutoService {
 		
 		if(produto.getNome() == null) {
 			throw new ResourceBadRequestException("O produto deve ter um nome.");
+		}
+	}
+	
+	private void validarDescricao(ProdutoRequestDTO produto) {
+		
+		if(produto.getDescricao() == null) {
+			throw new ResourceBadRequestException("O produto deve ter uma descrição.");
+		} if (produto.getDescricao().length() > 100) {
+			throw new ResourceBadRequestException("Excedido o número máximo de caracteres");
+		}
+	}
+
+	private void validarDataDeCadastro(ProdutoRequestDTO produto) {
+	
+	if(produto.getData_cadastro() == null) {
+		throw new ResourceBadRequestException("O produto deve ter a data de cadastro.");
+		} 
+	}
+
+	private void validarQuantidadeNoEstoque(ProdutoRequestDTO produto) {
+	
+	if(produto.getQtd_estoque() == null) {
+		throw new ResourceBadRequestException("O produto deve ter a quantidade no estoque.");
+		} 
+	}
+
+	private void validarValor(ProdutoRequestDTO produto) {
+	
+	if(produto.getValor_unitario() == null) {
+		throw new ResourceBadRequestException("O produto deve ter um valor.");
 		}
 	}
 }
