@@ -1,7 +1,6 @@
 package br.com.serratec.ecommerce.dto;
 
 import java.util.List;
-
 import br.com.serratec.ecommerce.model.Endereco;
 
 public class ClienteResponseDTO {

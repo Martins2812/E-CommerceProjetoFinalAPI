@@ -1,7 +1,6 @@
 package br.com.serratec.ecommerce.config;
 
 import java.util.Properties;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +19,8 @@ public class EmailConfig {
 	@Bean
 	public JavaMailSender mailSender() {
 		
-		//Criando a instancia do objeto que configura toda a bagaça de enviar e-mail.
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		
-		//Fazendo as configurações basicas para envio de e-mail
 		mailSender.setHost(env.getProperty("mail.smtp.host"));
 		mailSender.setPort(env.getProperty("mail.smtp.port", Integer.class));
 		mailSender.setUsername(env.getProperty("mail.smtp.username"));

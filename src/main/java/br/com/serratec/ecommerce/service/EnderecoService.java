@@ -3,13 +3,12 @@ package br.com.serratec.ecommerce.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.com.serratec.ecommerce.dto.EnderecoRequestDTO;
 import br.com.serratec.ecommerce.dto.EnderecoResponseDTO;
+import br.com.serratec.ecommerce.exception.ResourceBadRequestException;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.Endereco;
 import br.com.serratec.ecommerce.repository.EnderecoRepository;
@@ -47,30 +46,41 @@ public class EnderecoService {
 	
 	public EnderecoResponseDTO cadastrar (EnderecoRequestDTO endereco) {
 		
-		var contaModel = mapper.map(endereco, Endereco.class);
+		validarCep(endereco);
 		
-		contaModel.setId(null);
-		contaModel = repositorio.save(contaModel);
+		var enderecoModel = mapper.map(endereco, Endereco.class);
 		
-		var response = mapper.map(contaModel, EnderecoResponseDTO.class);
+		enderecoModel.setId(null);
+		enderecoModel = repositorio.save(enderecoModel);
+		
+		var response = mapper.map(enderecoModel, EnderecoResponseDTO.class);
 		
 		return response;
 	}
 	
 	public EnderecoRequestDTO atualizar (Long id, EnderecoRequestDTO endereco) {
 		
-		obterEnderecoPorId(id);
+		validarCep(endereco);
 		
-		var contaModel = mapper.map(endereco, Endereco.class);
+		var enderecoModel = mapper.map(endereco, Endereco.class);
 		
-		contaModel.setId(id);
-		contaModel = repositorio.save(contaModel);
+		enderecoModel.setId(id);
+		enderecoModel = repositorio.save(enderecoModel);
 
-		return mapper.map(contaModel, EnderecoRequestDTO.class);
+		return mapper.map(enderecoModel, EnderecoRequestDTO.class);
 	}
 	
 	public void deletar(Long id) {
 		obterEnderecoPorId(id);
 		repositorio.deleteById(id);
+	}
+	
+	private void validarCep(EnderecoRequestDTO endereco) {
+		
+		if(endereco.getCep() == null) {
+			throw new ResourceBadRequestException("O endereço deve ter um CEP.");
+		}else if (endereco.getCep().length() > 9){
+			throw new ResourceBadRequestException("Digite um número correto de CEP ex: '00000000'");
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package br.com.serratec.ecommerce.dto;
 
 import java.util.Date;
+import br.com.serratec.ecommerce.model.Categoria;
 
 	public class ProdutoResponseDTO {
 		
@@ -16,7 +17,7 @@ import java.util.Date;
 
 	private Double valor_unitario;
 	
-	private Long id_categoria;
+	private Categoria categoria;
 
 	public Long getId() {
 		return id;
@@ -66,14 +67,11 @@ import java.util.Date;
 		this.valor_unitario = valor_unitario;
 	}
 
-	public Long getId_categoria() {
-		return id_categoria;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setId_categoria(Long id_categoria) {
-		this.id_categoria = id_categoria;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
-	
-	
-	
 }

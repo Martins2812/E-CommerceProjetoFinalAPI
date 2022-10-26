@@ -1,8 +1,7 @@
 package br.com.serratec.ecommerce.dto;
 
 import java.util.Date;
-import java.util.List;
-import br.com.serratec.ecommerce.model.Produto;
+import br.com.serratec.ecommerce.model.Categoria;
 
 public class ProdutoRequestDTO {
 
@@ -16,7 +15,7 @@ public class ProdutoRequestDTO {
 
 	private Double valor_unitario;
 	
-	private List<Produto> produto;
+	private Categoria categoria;
 
 	public String getNome() {
 		return nome;
@@ -58,11 +57,11 @@ public class ProdutoRequestDTO {
 		this.valor_unitario = valor_unitario;
 	}
 
-	public List<Produto> getProduto() {
-		return produto;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setProduto(List<Produto> produto) {
-		this.produto = produto;
-	}	
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 }

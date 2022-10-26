@@ -23,14 +23,15 @@ public class ClienteService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	public List<ClienteRequestDTO> obterTodosOsClientes() {
+	
+	public List<ClienteResponseDTO> obterTodosOsClientes() {
 		
 		List<Cliente> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<ClienteRequestDTO>();
+		var novaLista = new ArrayList<ClienteResponseDTO>();
 		
 		for (Cliente cliente : lista) {
-			novaLista.add(mapper.map(cliente, ClienteRequestDTO.class));
+			novaLista.add(mapper.map(cliente, ClienteResponseDTO.class));
 		}
 		return novaLista;
 	}
@@ -48,37 +49,40 @@ public class ClienteService {
 	}
 	
 	public ClienteRequestDTO cadastrar (ClienteRequestDTO cliente) {
+		validarNomeUsuario(cliente);
+		validarEmail(cliente);
+		validarTelefone(cliente);
 		validarCpf(cliente);
 		validarNomeCompleto(cliente);
-		validarEmail(cliente);
-		var contaModel = mapper.map(cliente, Cliente.class);
+		var clienteModel = mapper.map(cliente, Cliente.class);
 		
-		contaModel.setId(null);
-		contaModel = repositorio.save(contaModel);
+		clienteModel.setId(null);
+		clienteModel = repositorio.save(clienteModel);
 		
-		var response = mapper.map(contaModel, ClienteRequestDTO.class);
+		var response = mapper.map(clienteModel, ClienteRequestDTO.class);
 		
 		return response;
 	}
 	
 	public ClienteRequestDTO atualizar (Long id, ClienteRequestDTO cliente) {
-		validarCpf(cliente);
-		obterClientePorId(id);
-		validarNomeCompleto(cliente);
+		validarNomeUsuario(cliente);
 		validarEmail(cliente);
-		var contaModel = mapper.map(cliente, Cliente.class);
+		validarTelefone(cliente);
+		validarCpf(cliente);
+		validarNomeCompleto(cliente);
+		var clienteModel = mapper.map(cliente, Cliente.class);
 		
-		contaModel.setId(id);
-		contaModel = repositorio.save(contaModel);
+		clienteModel.setId(id);
+		clienteModel = repositorio.save(clienteModel);
 
-		return mapper.map(contaModel, ClienteRequestDTO.class);
+		return mapper.map(clienteModel, ClienteRequestDTO.class);
 	}
 	
 	public void deletar(Long id) {
 		obterClientePorId(id);
 		repositorio.deleteById(id);
 	}
-
+	
 	private void validarNomeCompleto(ClienteRequestDTO cliente) {
 		if(cliente.getNomeCompleto() == null) {
 			throw new ResourceBadRequestException("O cliente deve ter um nome.");
@@ -90,19 +94,32 @@ public class ClienteService {
 	private void validarCpf(ClienteRequestDTO cliente) {
 		if(cliente.getCpf() == null) {
 			throw new ResourceBadRequestException("O CPF não pode ser nulo");
-		}else if (cliente.getCpf().length() < 14 && cliente.getCpf().length() > 14){
-			throw new ResourceBadRequestException("Digite um número correto de CPF ex'000.000.000-00'");
+		}else if (cliente.getCpf().length() != 14){
+			throw new ResourceBadRequestException("Digite um número correto de CPF ex: '000.000.000-00'");
+		}
+	}
+	
+	private void validarTelefone(ClienteRequestDTO cliente) {
+		if(cliente.getTelefone() == null) {
+			throw new ResourceBadRequestException("O cliente deve ter um número de telefone.");
+		}else if (cliente.getTelefone().length() != 11){	
+			throw new ResourceBadRequestException("Digite os 11 números do seu celular");
 		}
 	}
 	
 	private void validarEmail(ClienteRequestDTO cliente) {
 		if(cliente.getEmail() == null) {
-			throw new ResourceBadRequestException("O cliente deve ter um e-mail válido");
+			throw new ResourceBadRequestException("O cliente deve ter um email");
 		}else if (cliente.getEmail().length() > 30){	
-			throw new ResourceBadRequestException("Digite um nome menor do que 60 caracteres");
+			throw new ResourceBadRequestException("Digite até 30 caracteres no email");
 		}
 	}
 	
-	
-	
+	private void validarNomeUsuario(ClienteRequestDTO cliente) {
+		if(cliente.getNomeUsuario() == null) {
+			throw new ResourceBadRequestException("O cliente deve ter um nome de usuário");
+		}else if (cliente.getNomeUsuario().length() > 20){	
+			throw new ResourceBadRequestException("Digite até 20 caracteres no máximo");
+		}
+	}
 }

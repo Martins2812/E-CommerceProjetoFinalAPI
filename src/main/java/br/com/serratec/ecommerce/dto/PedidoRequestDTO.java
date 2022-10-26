@@ -1,7 +1,6 @@
 package br.com.serratec.ecommerce.dto;
 
 import java.util.Date;
-
 import br.com.serratec.ecommerce.model.Cliente;
 
 public class PedidoRequestDTO {

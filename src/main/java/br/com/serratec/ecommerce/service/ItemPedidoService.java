@@ -3,12 +3,11 @@ package br.com.serratec.ecommerce.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.com.serratec.ecommerce.dto.ItemPedidoRequestDTO;
+import br.com.serratec.ecommerce.dto.ItemPedidoResponseDTO;
 import br.com.serratec.ecommerce.exception.ResourceNotFoundException;
 import br.com.serratec.ecommerce.model.ItemPedido;
 import br.com.serratec.ecommerce.repository.ItemPedidoRepository;
@@ -22,14 +21,14 @@ public class ItemPedidoService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	public List<ItemPedidoRequestDTO> obterTodosOsItemPedidos() {
+	public List<ItemPedidoResponseDTO> obterTodosOsItemPedidos() {
 		
 		List<ItemPedido> lista = repositorio.findAll();
 		
-		var novaLista = new ArrayList<ItemPedidoRequestDTO>();
+		var novaLista = new ArrayList<ItemPedidoResponseDTO>();
 		
 		for (ItemPedido itemPedido : lista) {
-			novaLista.add(mapper.map(itemPedido, ItemPedidoRequestDTO.class));
+			novaLista.add(mapper.map(itemPedido, ItemPedidoResponseDTO.class));
 		}
 		return novaLista;
 	}
@@ -45,17 +44,14 @@ public class ItemPedidoService {
 		return Optional.of(dto);
 	}
 	
-	public ItemPedidoRequestDTO cadastrar (ItemPedidoRequestDTO itemPedido) {
-	
-		valorBruto(itemPedido);
-		valorLiquido(itemPedido);
+	public ItemPedidoResponseDTO cadastrar (ItemPedidoRequestDTO itemPedido) {
 		
-		var contaModel = mapper.map(itemPedido, ItemPedido.class);
+		var itemPedidoModel = mapper.map(itemPedido, ItemPedido.class);
 		
-		contaModel.setId(null);
-		contaModel = repositorio.save(contaModel);
+		itemPedidoModel.setId(null);
+		itemPedidoModel = repositorio.save(itemPedidoModel);
 		
-		var response = mapper.map(contaModel, ItemPedidoRequestDTO.class);
+		var response = mapper.map(itemPedidoModel, ItemPedidoResponseDTO.class);
 		
 		return response;
 	}
@@ -63,27 +59,17 @@ public class ItemPedidoService {
 	public ItemPedidoRequestDTO atualizar (Long id, ItemPedidoRequestDTO itemPedido) {
 		
 		obterItemPedidoPorId(id);
-    
-		var contaModel = mapper.map(itemPedido, ItemPedido.class);
 		
-		contaModel.setId(id);
-		contaModel = repositorio.save(contaModel);
+		var itemPedidoModel = mapper.map(itemPedido, ItemPedido.class);
+		
+		itemPedidoModel.setId(id);
+		itemPedidoModel = repositorio.save(itemPedidoModel);
 
-		return mapper.map(contaModel, ItemPedidoRequestDTO.class);
+		return mapper.map(itemPedidoModel, ItemPedidoRequestDTO.class);
 	}
 	
 	public void deletar(Long id) {
 		obterItemPedidoPorId(id);
 		repositorio.deleteById(id);
-	}
-	
-	private double valorBruto(ItemPedidoRequestDTO itemPedido) {
-		double bruto = itemPedido.getPreco_venda() * itemPedido.getQuantidade();
-		return bruto;
-	}
-	
-	private double valorLiquido(ItemPedidoRequestDTO itemPedido) {
-		double liquido = valorBruto(itemPedido) - itemPedido.getDesconto();
-		return liquido;
 	}
 }
